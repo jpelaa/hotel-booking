@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 export default function App() {
   return (
     <Router>
@@ -23,7 +17,7 @@ export default function App() {
             </li>
           </ul>
         </nav>
-        <Switch>
+        <Routes>
           <Route path="/about">
             <About />
           </Route>
@@ -33,7 +27,7 @@ export default function App() {
           <Route path="/">
             <Home />
           </Route>
-        </Switch>
+        </Routes>
       </div>
     </Router>
   );
