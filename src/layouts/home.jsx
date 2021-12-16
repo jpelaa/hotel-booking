@@ -10,8 +10,8 @@ import {
 
 const Home = () => {
   return (
-    <Grid templateColumns="60% 40%" gap={6}>
-      <Box w="100%" >
+    <Grid templateColumns="60% 40%" gap={6} m="4">
+      <Box w="100%" p={4} borderRadius="2xl" border="1px solid" borderColor="primary">
         <Heading>Guest Checkin/Checkout</Heading>
         <FormControl id="searchGuestName">
           <FormLabel>Guest Name</FormLabel>
@@ -64,12 +64,11 @@ const Home = () => {
         </Grid>
 
         <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
-          <Button variant="solid" colorScheme="teal">Save</Button>
-          <Button variant="outline" colorScheme="teal">Payments</Button>
-          <Button>Cancel</Button>
+          <Button variant="primary" >Save</Button>
+          <Button variant="secondary">Payments</Button>
+          <Button variant="secondaryOutline">Cancel</Button>
         </Grid>
       </Box>
-      <Box w="100%" h="10" bg="blue.500" />
     </Grid>
   );
 };
