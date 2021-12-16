@@ -6,12 +6,22 @@ import {
   Grid,
   Heading,
   Input,
+  useDisclosure,
 } from "@chakra-ui/react";
+import Payments from "./payments";
 
-const Home = () => {
+const Home = (props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Grid templateColumns="60% 40%" gap={6}>
-      <Box w="100%" bg="blue.500">
+    <Grid templateColumns="60% 40%" gap={6} m="4">
+      <Box
+        w="100%"
+        p={4}
+        borderRadius="2xl"
+        border="1px solid"
+        borderColor="primary"
+      >
         <Heading>Guest Checkin/Checkout</Heading>
         <FormControl id="searchGuestName">
           <FormLabel>Guest Name</FormLabel>
@@ -63,13 +73,15 @@ const Home = () => {
           </FormControl>
         </Grid>
 
-        <Grid templateColumns="repeat(3,1fr)" gap={6}>
-          <Button>Save</Button>
-          <Button>Payments</Button>
-          <Button>Cancel</Button>t
+        <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
+          <Button variant="primary">SAVE</Button>
+          <Button variant="secondary" onClick={onOpen}>
+            PAYMENT
+          </Button>
+          <Button variant="secondaryOutline">CANCEL</Button>
         </Grid>
       </Box>
-      <Box w="100%" h="10" bg="blue.500" />
+      <Payments isOpen={isOpen} onClose={onClose} />
     </Grid>
   );
 };
