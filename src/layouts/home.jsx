@@ -11,7 +11,7 @@ import {
 const Home = () => {
   return (
     <Grid templateColumns="60% 40%" gap={6}>
-      <Box w="100%" bg="blue.500">
+      <Box w="100%" >
         <Heading>Guest Checkin/Checkout</Heading>
         <FormControl id="searchGuestName">
           <FormLabel>Guest Name</FormLabel>
@@ -63,10 +63,10 @@ const Home = () => {
           </FormControl>
         </Grid>
 
-        <Grid templateColumns="repeat(3,1fr)" gap={6}>
-          <Button>Save</Button>
-          <Button>Payments</Button>
-          <Button>Cancel</Button>t
+        <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
+          <Button variant="solid" colorScheme="teal">Save</Button>
+          <Button variant="outline" colorScheme="teal">Payments</Button>
+          <Button>Cancel</Button>
         </Grid>
       </Box>
       <Box w="100%" h="10" bg="blue.500" />
