@@ -4,11 +4,14 @@ import "./index.css";
 import Routes from "./routes";
 import { ChakraProvider } from "@chakra-ui/react";
 import { customTheme } from "./styles/theme";
+import { HotelProvider } from "./hotel-context";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider resetCSS theme={customTheme}>
-      <Routes />
+      <HotelProvider>
+        <Routes />
+      </HotelProvider>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")

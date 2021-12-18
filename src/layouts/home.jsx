@@ -6,12 +6,27 @@ import {
   Grid,
   Heading,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   useDisclosure,
 } from "@chakra-ui/react";
+import {
+  RESET_HOTEL_VALUE,
+  UPDATE_HOTEL_VALUE,
+  useHotelContext,
+} from "../hotel-context";
 import Payments from "./payments";
 
 const Home = (props) => {
+  const { state, dispatch } = useHotelContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleClear = () => {
+    dispatch({ type: RESET_HOTEL_VALUE });
+  };
 
   return (
     <Grid templateColumns="60% 40%" gap={6} m="4">
@@ -61,15 +76,44 @@ const Home = (props) => {
         <Grid templateColumns="repeat(3,1fr)" gap={6}>
           <FormControl id="arrivalDate">
             <FormLabel>Rate</FormLabel>
-            <Input type="date" placeholder="Date" />
+            <NumberInput
+              allowMouseWheel
+              onChange={(value) =>
+                dispatch({
+                  type: UPDATE_HOTEL_VALUE,
+                  payload: {
+                    keyName: "ratePerRoom",
+                    value,
+                  },
+                })
+              }
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
           </FormControl>
           <FormControl id="departureDate">
             <FormLabel>Nights</FormLabel>
-            <Input type="date" placeholder="Date" />
+            <NumberInput allowMouseWheel>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
           </FormControl>
           <FormControl id="departureDate">
             <FormLabel>Estimated Cost</FormLabel>
-            <Input type="date" placeholder="Date" />
+            <NumberInput allowMouseWheel>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
           </FormControl>
         </Grid>
 
@@ -78,7 +122,9 @@ const Home = (props) => {
           <Button variant="secondary" onClick={onOpen}>
             PAYMENT
           </Button>
-          <Button variant="secondaryOutline">CANCEL</Button>
+          <Button variant="secondaryOutline" onClick={handleClear}>
+            CLEAR
+          </Button>
         </Grid>
       </Box>
       <Payments isOpen={isOpen} onClose={onClose} />
