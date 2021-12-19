@@ -1,0 +1,19 @@
+.CalendarDay__selected_span,
+.CalendarDay__selected_span:hover {
+  background: var(--chakra-colors-switchPrimary);
+  color: white;
+  border: 1px solid var(--chakra-colors-switchPrimary);
+}
+
+.CalendarDay__selected,
+.CalendarDay__selected:hover {
+  background: var(--chakra-colors-primary);
+  color: white;
+  border: 1px solid var(--chakra-colors-primary);
+}
+
+.CalendarDay__hovered_span:hover,
+.CalendarDay__hovered_span {
+  background: var(--chakra-colors-switchPrimary);
+  border: 1px solid var(--chakra-colors-switchPrimary);
+}

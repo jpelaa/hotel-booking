@@ -21,7 +21,7 @@ const initialState = {
 function hotelReducer(state, action) {
   switch (action.type) {
     case UPDATE_HOTEL_VALUE: {
-      return { [state.keyName]: state.payload };
+      return { ...state, [action.payload.keyName]: action.payload.value };
     }
     case RESET_HOTEL_VALUE: {
       return initialState;
