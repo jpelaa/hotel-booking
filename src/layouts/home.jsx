@@ -64,19 +64,28 @@ const Home = (props) => {
   console.log(focusedInput, " state of asdasd");
 
   return (
-    <Grid templateColumns="60% 40%" m="4">
+    <Grid templateColumns="40% 60%" m="4">
       <Grid
         gap="2"
         w="100%"
-        p={4}
-        borderRadius="2xl"
+        p={10}
+        borderRadius="3xl"
         border="1px solid"
-        borderColor="primary"
+        borderColor="#E6F5FB"
+        bg="#E6F5FB"
       >
-        <Heading>Guest Checkin/Checkout</Heading>
+        <Heading color="#1F2223">Guest Checkin/Checkout</Heading>
         <FormControl id="searchGuestName">
-          <FormLabel>Guest Name</FormLabel>
-          <Input type="search" placeholder="Search" />
+          <FormLabel color="#1F2223">Guest Name</FormLabel>
+          <Input
+            borderColor="#1F2223"
+            borderRadius="2xl"
+            focusBorderColor="#1F2223"
+            color="#1F2223"
+            type="search"
+            placeholder="Search"
+            bg="white"
+          />
         </FormControl>
         <SimpleGrid columns={2} spacing={6}>
           <Popover
@@ -87,9 +96,14 @@ const Home = (props) => {
           >
             <PopoverTrigger>
               <FormControl id="arrivalDate">
-                <FormLabel>Arrival</FormLabel>
+                <FormLabel color="#1F2223">Arrival</FormLabel>
                 <Input
+                  borderColor="#1F2223"
+                  borderRadius="2xl"
+                  focusBorderColor="#1F2223"
+                  color="#1F2223"
                   type="date"
+                  bg="#FFFFFF"
                   placeholder="Date"
                   value={moment(startDate).format("YYYY-MM-DD")}
                 />
@@ -122,9 +136,14 @@ const Home = (props) => {
           >
             <PopoverTrigger>
               <FormControl id="departureDate">
-                <FormLabel>Departure</FormLabel>
+                <FormLabel color="#1F2223">Departure</FormLabel>
                 <Input
                   type="date"
+                  borderColor="#1F2223"
+                  borderRadius="2xl"
+                  focusBorderColor="#1F2223"
+                  color="#1F2223"
+                  bg="#FFFFFF"
                   placeholder="Date"
                   value={moment(endDate).format("YYYY-MM-DD")}
                 />
@@ -148,48 +167,102 @@ const Home = (props) => {
             </PopoverContent>
           </Popover>
         </SimpleGrid>
-
-        {/* <FormControl id="arrivalDate">
-          <FormLabel>Arrival</FormLabel>
-          <Input type="date" placeholder="Date" />
-        </FormControl>
-        <FormControl id="departureDate">
-          <FormLabel>Departure</FormLabel>
-          <Input type="date" placeholder="Date" />
-        </FormControl> */}
         <Grid templateColumns="repeat(3,1fr)" gap={6}>
           <FormControl id="adults">
-            <FormLabel>Adults</FormLabel>
+            <FormLabel color="#1F2223">Adults</FormLabel>
             <HStack>
-              <Button focusBorderColor="primary" {...inc}>
+              <Button
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#CBCED1"
+                {...inc}
+              >
                 +
               </Button>
-              <Input focusBorderColor="primary" {...input} />
-              <Button focusBorderColor="primary" {...dec}>
+              <Input
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#FFFFFF"
+                {...input}
+              />
+              <Button
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#CBCED1"
+                {...dec}
+              >
                 -
               </Button>
             </HStack>
           </FormControl>
           <FormControl id="children">
-            <FormLabel>Children</FormLabel>
+            <FormLabel color="#1F2223">Children</FormLabel>
             <HStack>
-              <Button focusBorderColor="primary" {...inc}>
+              <Button
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#CBCED1"
+                {...inc}
+              >
                 +
               </Button>
-              <Input focusBorderColor="primary" {...input} />
-              <Button focusBorderColor="primary" {...dec}>
+              <Input
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#FFFFFF"
+                {...input}
+              />
+              <Button
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#CBCED1"
+                {...dec}
+              >
                 -
               </Button>
             </HStack>
           </FormControl>
           <FormControl id="rooms">
-            <FormLabel>Rooms</FormLabel>
+            <FormLabel color="#1F2223">Rooms</FormLabel>
             <HStack>
-              <Button focusBorderColor="primary" {...inc}>
+              <Button
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#CBCED1"
+                {...inc}
+              >
                 +
               </Button>
-              <Input focusBorderColor="primary" {...input} />
-              <Button focusBorderColor="primary" {...dec}>
+              <Input
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#ffffff"
+                {...input}
+              />
+              <Button
+                borderColor="#1F2223"
+                borderRadius="2xl"
+                focusBorderColor="#1F2223"
+                color="#1F2223"
+                bg="#CBCED1"
+                {...dec}
+              >
                 -
               </Button>
             </HStack>
@@ -197,8 +270,15 @@ const Home = (props) => {
         </Grid>
 
         <FormControl id="roomType">
-          <FormLabel>Room Type</FormLabel>
-          <Select focusBorderColor="primary" placeholder="Select the Room Type">
+          <FormLabel color="#1F2223">Room Type</FormLabel>
+          <Select
+            borderColor="#1F2223"
+            borderRadius="2xl"
+            focusBorderColor="#1F2223"
+            color="#1F2223"
+            bg="#FFFFFF"
+            placeholder="Select the Room Type"
+          >
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
@@ -207,9 +287,13 @@ const Home = (props) => {
 
         <Grid templateColumns="repeat(3,1fr)" gap={6}>
           <FormControl id="arrivalDate">
-            <FormLabel>Rate</FormLabel>
+            <FormLabel color="#1F2223">Rate</FormLabel>
             <NumberInput
-              focusBorderColor="primary"
+              borderColor="#1F2223"
+              borderRadius="2xl"
+              focusBorderColor="#1F2223"
+              color="#1F2223"
+              bg="#FFFFFF"
               allowMouseWheel
               onChange={(value) =>
                 dispatch({
@@ -229,8 +313,15 @@ const Home = (props) => {
             </NumberInput>
           </FormControl>
           <FormControl id="departureDate">
-            <FormLabel>Nights</FormLabel>
-            <NumberInput focusBorderColor="primary" allowMouseWheel>
+            <FormLabel color="#1F2223">Nights</FormLabel>
+            <NumberInput
+              borderColor="#1F2223"
+              borderRadius="2xl"
+              focusBorderColor="#1F2223"
+              color="#1F2223"
+              bg="#FFFFFF"
+              allowMouseWheel
+            >
               <NumberInputField />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -239,8 +330,15 @@ const Home = (props) => {
             </NumberInput>
           </FormControl>
           <FormControl id="departureDate">
-            <FormLabel>Estimated Cost</FormLabel>
-            <NumberInput focusBorderColor="primary" allowMouseWheel>
+            <FormLabel color="#1F2223">Estimated Cost</FormLabel>
+            <NumberInput
+              borderColor="#1F2223"
+              borderRadius="2xl"
+              focusBorderColor="#1F2223"
+              color="#1F2223"
+              bg="#FFFFFF"
+              allowMouseWheel
+            >
               <NumberInputField />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -251,11 +349,25 @@ const Home = (props) => {
         </Grid>
 
         <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
-          <Button variant="primary">SAVE</Button>
-          <Button variant="secondary" onClick={onOpen}>
+          <Button color="#FFFFFF" bg="#1F2223" borderRadius="2xl">
+            SAVE
+          </Button>
+          <Button
+            bg="#F99136"
+            color="#1F2223"
+            borderRadius="2xl"
+            onClick={onOpen}
+          >
             PAYMENT
           </Button>
-          <Button variant="secondaryOutline" onClick={handleClear}>
+          <Button
+            bg="#FFFFFF"
+            border="1px solid"
+            borderColor="#1F2223"
+            color="#1F2223"
+            borderRadius="2xl"
+            onClick={handleClear}
+          >
             CLEAR
           </Button>
         </Grid>
