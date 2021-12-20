@@ -33,6 +33,7 @@ import "react-dates/lib/css/_datepicker.css";
 import "react-dates/initialize";
 import "../styles/react_dates_overrides.css";
 import moment from "moment";
+import { INPUT_STYLES } from "../static/styles";
 
 const Home = (props) => {
   const { state, dispatch } = useHotelContext();
@@ -71,21 +72,13 @@ const Home = (props) => {
         p={10}
         borderRadius="3xl"
         border="1px solid"
-        borderColor="#E6F5FB"
-        bg="#E6F5FB"
+        borderColor="lightBlue"
+        bg="lightBlue"
       >
-        <Heading color="#1F2223">Guest Checkin/Checkout</Heading>
+        <Heading>Guest Checkin/Checkout</Heading>
         <FormControl id="searchGuestName">
-          <FormLabel color="#1F2223">Guest Name</FormLabel>
-          <Input
-            borderColor="#1F2223"
-            borderRadius="2xl"
-            focusBorderColor="#1F2223"
-            color="#1F2223"
-            type="search"
-            placeholder="Search"
-            bg="white"
-          />
+          <FormLabel>Guest Name</FormLabel>
+          <Input {...INPUT_STYLES} type="text" placeholder="Search" />
         </FormControl>
         <SimpleGrid columns={2} spacing={6}>
           <Popover
@@ -98,12 +91,7 @@ const Home = (props) => {
               <FormControl id="arrivalDate">
                 <FormLabel color="#1F2223">Arrival</FormLabel>
                 <Input
-                  borderColor="#1F2223"
-                  borderRadius="2xl"
-                  focusBorderColor="#1F2223"
-                  color="#1F2223"
-                  type="date"
-                  bg="#FFFFFF"
+                  {...INPUT_STYLES}
                   placeholder="Date"
                   value={moment(startDate).format("YYYY-MM-DD")}
                 />
@@ -139,11 +127,7 @@ const Home = (props) => {
                 <FormLabel color="#1F2223">Departure</FormLabel>
                 <Input
                   type="date"
-                  borderColor="#1F2223"
-                  borderRadius="2xl"
-                  focusBorderColor="#1F2223"
-                  color="#1F2223"
-                  bg="#FFFFFF"
+                  {...INPUT_STYLES}
                   placeholder="Date"
                   value={moment(endDate).format("YYYY-MM-DD")}
                 />
@@ -169,100 +153,37 @@ const Home = (props) => {
         </SimpleGrid>
         <Grid templateColumns="repeat(3,1fr)" gap={6}>
           <FormControl id="adults">
-            <FormLabel color="#1F2223">Adults</FormLabel>
+            <FormLabel>Adults</FormLabel>
             <HStack>
-              <Button
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#CBCED1"
-                {...inc}
-              >
+              <Button variant="icon" {...inc}>
                 +
               </Button>
-              <Input
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#FFFFFF"
-                {...input}
-              />
-              <Button
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#CBCED1"
-                {...dec}
-              >
+              <Input {...INPUT_STYLES} {...input} />
+              <Button variant="icon" {...dec}>
                 -
               </Button>
             </HStack>
           </FormControl>
           <FormControl id="children">
-            <FormLabel color="#1F2223">Children</FormLabel>
+            <FormLabel>Children</FormLabel>
             <HStack>
-              <Button
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#CBCED1"
-                {...inc}
-              >
+              <Button variant="icon" {...inc}>
                 +
               </Button>
-              <Input
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#FFFFFF"
-                {...input}
-              />
-              <Button
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#CBCED1"
-                {...dec}
-              >
+              <Input {...INPUT_STYLES} {...input} />
+              <Button variant="icon" {...dec}>
                 -
               </Button>
             </HStack>
           </FormControl>
           <FormControl id="rooms">
-            <FormLabel color="#1F2223">Rooms</FormLabel>
+            <FormLabel>Rooms</FormLabel>
             <HStack>
-              <Button
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#CBCED1"
-                {...inc}
-              >
+              <Button variant="icon" {...inc}>
                 +
               </Button>
-              <Input
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#ffffff"
-                {...input}
-              />
-              <Button
-                borderColor="#1F2223"
-                borderRadius="2xl"
-                focusBorderColor="#1F2223"
-                color="#1F2223"
-                bg="#CBCED1"
-                {...dec}
-              >
+              <Input {...INPUT_STYLES} {...input} />
+              <Button variant="icon" {...dec}>
                 -
               </Button>
             </HStack>
@@ -271,14 +192,7 @@ const Home = (props) => {
 
         <FormControl id="roomType">
           <FormLabel color="#1F2223">Room Type</FormLabel>
-          <Select
-            borderColor="#1F2223"
-            borderRadius="2xl"
-            focusBorderColor="#1F2223"
-            color="#1F2223"
-            bg="#FFFFFF"
-            placeholder="Select the Room Type"
-          >
+          <Select {...INPUT_STYLES} placeholder="Select the Room Type">
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
@@ -349,25 +263,11 @@ const Home = (props) => {
         </Grid>
 
         <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
-          <Button color="#FFFFFF" bg="#1F2223" borderRadius="2xl">
-            SAVE
-          </Button>
-          <Button
-            bg="#F99136"
-            color="#1F2223"
-            borderRadius="2xl"
-            onClick={onOpen}
-          >
+          <Button>SAVE</Button>
+          <Button variant="secondary" onClick={onOpen}>
             PAYMENT
           </Button>
-          <Button
-            bg="#FFFFFF"
-            border="1px solid"
-            borderColor="#1F2223"
-            color="#1F2223"
-            borderRadius="2xl"
-            onClick={handleClear}
-          >
+          <Button variant="primaryOutline" onClick={handleClear}>
             CLEAR
           </Button>
         </Grid>

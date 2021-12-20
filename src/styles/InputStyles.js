@@ -1,20 +1,22 @@
 import { darken, mode, whiten } from "@chakra-ui/theme-tools";
 
-export const ButtonStyles = {
+export const InputStyles = {
   // style object for base or default style
-  baseStyle: {
-    borderRadius: "2xl",
-  },
+  baseStyle: {},
   // styles for different sizes ("sm", "md", "lg")
   sizes: {},
   // styles for different visual variants ("outline", "solid")
   variants: {
     primary: (props) => ({
-      bg: "primary",
-      color: "white",
+      color: "primary",
+      borderColor: "primary",
+      bg: "white",
       _hover: {
         bg: mode(whiten("primary", 20), darken("primary", 20))(props),
         boxShadow: "md",
+      },
+      _focus: {
+        borderColor: "primary",
       },
     }),
     secondary: (props) => ({
@@ -26,20 +28,10 @@ export const ButtonStyles = {
       },
     }),
     primaryOutline: (props) => ({
-      bg: "white",
+      bg: "transparent",
       border: "1px solid",
-      borderColor: "primary",
-      color: "primary",
-      transition: "all 200ms ease",
-      _hover: {
-        boxShadow: "md",
-        transform: "scale(1.02)",
-      },
-    }),
-    icon: (props) => ({
-      bg: "lightGrey1",
-      borderColor: "primary",
-      color: "primary",
+      borderColor: "secondary",
+      color: "secondary",
       transition: "all 200ms ease",
       _hover: {
         boxShadow: "md",
