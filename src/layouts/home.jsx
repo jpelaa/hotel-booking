@@ -24,6 +24,10 @@ import {
   useNumberInput,
   IconButton,
   InputGroup,
+  useToast,
+  Alert,
+  AlertIcon,
+  CloseButton,
 } from "@chakra-ui/react";
 import {
   RESET_HOTEL_VALUE,
@@ -36,7 +40,13 @@ import "react-dates/lib/css/_datepicker.css";
 import "react-dates/initialize";
 import "../styles/react_dates_overrides.css";
 import moment from "moment";
-import { INPUT_STYLES } from "../static/styles";
+import {
+  DARK_GREEN,
+  GREEN,
+  INPUT_STYLES,
+  SUCCESS_TOAST_STYLE,
+  WHITE,
+} from "../static/styles";
 import { AddIcon } from "@chakra-ui/icons";
 import AddGuest from "./addguest";
 
@@ -70,6 +80,7 @@ const Home = (props) => {
   const handleClear = () => {
     dispatch({ type: RESET_HOTEL_VALUE });
   };
+  const toast = useToast();
 
   console.log(state, " state of asdasd");
 
@@ -212,7 +223,6 @@ const Home = (props) => {
               </HStack>
             </FormControl>
           </Grid>
-
           <FormControl id="roomType">
             <FormLabel color="#1F2223">Room Type</FormLabel>
             <Select {...INPUT_STYLES} placeholder="Select the Room Type">
@@ -221,7 +231,6 @@ const Home = (props) => {
               <option value="option3">Option 3</option>
             </Select>
           </FormControl>
-
           <Grid templateColumns="repeat(3,1fr)" gap={6}>
             <FormControl id="arrivalDate">
               <FormLabel color="#1F2223">Rate</FormLabel>
@@ -286,7 +295,19 @@ const Home = (props) => {
           </Grid>
 
           <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
-            <Button>SAVE</Button>
+            <Button
+              onClick={() =>
+                toast({
+                  title: "Guest Created",
+                  status: "success",
+                  containerStyle: SUCCESS_TOAST_STYLE,
+                  duration: 2000,
+                  isClosable: true,
+                })
+              }
+            >
+              SAVE
+            </Button>
             <Button variant="secondary" onClick={onOpen}>
               PAYMENT
             </Button>

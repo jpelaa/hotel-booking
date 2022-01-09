@@ -1,0 +1,19 @@
+{
+  "guests": [
+    {
+      "guestId": 1,
+      "firstName": "FirstName",
+      "lastName": "LastName",
+      "email": "Email",
+      "phoneNo": "111111111",
+      "address": {
+        "address1": "",
+        "address2": "",
+        "country": "",
+        "city": "",
+        "state": "",
+        "postalCode": "000000"
+      }
+    }
+  ]
+}

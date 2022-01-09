@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -21,10 +20,8 @@ import {
   PopoverTrigger,
   Radio,
   RadioGroup,
-  Select,
   SimpleGrid,
   Stack,
-  Textarea,
   useBoolean,
 } from "@chakra-ui/react";
 import { INPUT_STYLES } from "../static/styles";
@@ -130,7 +127,7 @@ const Payments = (props) => {
         </DrawerBody>
 
         <DrawerFooter borderTopWidth="1px">
-          <Button variant="outline" mr={3} onClick={onClose}>
+          <Button variant="primaryOutline" mr={3} onClick={onClose}>
             Cancel
           </Button>
           <Button variant="primary">Submit</Button>
