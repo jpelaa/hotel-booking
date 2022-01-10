@@ -6,14 +6,12 @@
       "lastName": "LastName",
       "email": "Email",
       "phoneNo": "111111111",
-      "address": {
-        "address1": "",
-        "address2": "",
-        "country": "",
-        "city": "",
-        "state": "",
-        "postalCode": "000000"
-      }
+      "address1": "",
+      "address2": "",
+      "country": "",
+      "city": "",
+      "state": "",
+      "postalCode": "000000"
     }
   ]
 }
