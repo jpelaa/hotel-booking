@@ -23,16 +23,29 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 
 import { PhoneIcon } from "@chakra-ui/icons";
-import { SUCCESS_TOAST_STYLE } from "../static/styles";
+import { ERROR_TOAST_STYLE, SUCCESS_TOAST_STYLE } from "../static/styles";
 
 const AddGuest = (props) => {
   const { isModalOpen, onModalClose } = props;
   const btnRef = React.useRef();
   const toast = useToast();
-  const onSubmit = (values, actions) => {
-    setTimeout(() => {
+  const onSubmit = async (values, actions) => {
+    try {
+      const id = uuidv4();
+      const body = { ...values, id };
+
+      await fetch("http://localhost:3001/guests", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
       const text = "You've successfully added guest.";
       toast({
         title: "Guest Created",
@@ -42,8 +55,19 @@ const AddGuest = (props) => {
         duration: 2000,
         isClosable: true,
       });
-      actions.setSubmitting(false);
-    }, 200);
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Guest Create Failed",
+        status: "error",
+        description: "Guest is not created",
+        containerStyle: ERROR_TOAST_STYLE,
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+    onModalClose();
+    actions.setSubmitting(false);
   };
 
   const initialValues = {

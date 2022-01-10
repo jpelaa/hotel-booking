@@ -23,11 +23,7 @@ import {
   useDisclosure,
   useNumberInput,
   IconButton,
-  InputGroup,
   useToast,
-  Alert,
-  AlertIcon,
-  CloseButton,
 } from "@chakra-ui/react";
 import {
   RESET_HOTEL_VALUE,
@@ -40,13 +36,7 @@ import "react-dates/lib/css/_datepicker.css";
 import "react-dates/initialize";
 import "../styles/react_dates_overrides.css";
 import moment from "moment";
-import {
-  DARK_GREEN,
-  GREEN,
-  INPUT_STYLES,
-  SUCCESS_TOAST_STYLE,
-  WHITE,
-} from "../static/styles";
+import { INPUT_STYLES } from "../static/styles";
 import { AddIcon } from "@chakra-ui/icons";
 import AddGuest from "./addguest";
 
@@ -295,19 +285,7 @@ const Home = (props) => {
           </Grid>
 
           <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
-            <Button
-              onClick={() =>
-                toast({
-                  title: "Guest Created",
-                  status: "success",
-                  containerStyle: SUCCESS_TOAST_STYLE,
-                  duration: 2000,
-                  isClosable: true,
-                })
-              }
-            >
-              SAVE
-            </Button>
+            <Button onClick={() => {}}>SAVE</Button>
             <Button variant="secondary" onClick={onOpen}>
               PAYMENT
             </Button>
