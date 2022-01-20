@@ -16,8 +16,7 @@ const NavBar = () => {
         <Box>
           <Flex direction="row" justifyContent="space-between">
             <Box m="4" color="#1F2223">
-              {" "}
-              Checkins{" "}
+              Checkins
             </Box>
             <Box color="#1F2223" m="4">
               Reports
