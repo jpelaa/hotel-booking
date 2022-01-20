@@ -4,6 +4,7 @@ export const BLUE = "#AAE3FF";
 export const GREEN = "#80CB86";
 export const DARK_GREEN = "#44a34b";
 export const DARK_RED = "#980525";
+export const LIGHT_GREY = "#EAEBED";
 
 export const INPUT_STYLES = {
   borderColor: PRIMARY,
@@ -11,6 +12,31 @@ export const INPUT_STYLES = {
   focusBorderColor: PRIMARY,
   color: PRIMARY,
   bg: WHITE,
+};
+
+export const COMBO_BOX_STYLES = {
+  width: "100%",
+  // backgroundColor: "red",
+  maxHeight: 250,
+  overflowY: "auto",
+  position: "absolute",
+  margin: 0,
+  borderTop: 0,
+  zIndex: 1000,
+  borderColor: PRIMARY,
+  border: "1px solid",
+};
+
+export const LIST_STYLES = {
+  px: 2,
+  py: 1,
+  bg: WHITE,
+  borderColor: PRIMARY,
+  borderRadius: "sm",
+};
+
+export const HIGHT_LIGHT_STYLES = {
+  backgroundColor: "lightGrey",
 };
 
 export const SUCCESS_TOAST_STYLE = {

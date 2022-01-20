@@ -1,17 +1,43 @@
 {
   "guests": [
     {
-      "guestId": 1,
-      "firstName": "FirstName",
-      "lastName": "LastName",
-      "email": "Email",
-      "phoneNo": "111111111",
-      "address1": "",
-      "address2": "",
+      "firstName": "asdas",
+      "lastName": "asdsa",
+      "email": "asdsa@asd.com",
+      "phoneNo": "9999999990",
+      "address1": "asda",
+      "address2": "asd",
       "country": "",
-      "city": "",
-      "state": "",
-      "postalCode": "000000"
+      "city": "asdas",
+      "state": "option1",
+      "postalCode": "213123",
+      "id": "bc0bb146-663a-4e61-aab6-2620c6bebda9"
+    },
+    {
+      "firstName": "asd",
+      "lastName": "asd",
+      "email": "asd@adad.com",
+      "phoneNo": "9999171177",
+      "address1": "hjashd",
+      "address2": "asd",
+      "country": "",
+      "city": "asd",
+      "state": "option2",
+      "postalCode": "223222",
+      "id": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb"
     }
-  ]
+  ],
+  "payments" : [{
+    "paymentId" : "",
+    "guestId" : "",
+    "paymentDate" : "",
+    "mode" : "",
+    "desc" : "",
+    "amount" : 1
+  }],
+  "roomTypes" : [{
+    "roomId" : "",
+    "roomType" : "",
+    "roomRate" : 1
+  }]
 }

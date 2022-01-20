@@ -39,6 +39,7 @@ import moment from "moment";
 import { INPUT_STYLES } from "../static/styles";
 import { AddIcon } from "@chakra-ui/icons";
 import AddGuest from "./addguest";
+import AutoComplete from "../components/AutoComplete";
 
 const Home = (props) => {
   const { state, dispatch } = useHotelContext();
@@ -92,7 +93,8 @@ const Home = (props) => {
           <FormControl id="searchGuestName">
             <FormLabel>Guest Name</FormLabel>
             <HStack spacing="2">
-              <Input {...INPUT_STYLES} type="text" placeholder="Search" />
+              {/* <Input {...INPUT_STYLES} type="text" placeholder="Search" /> */}
+              <AutoComplete />
               <IconButton
                 aria-label="Add Guest"
                 icon={<AddIcon />}

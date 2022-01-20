@@ -1,5 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import { BLUE, GREEN, PRIMARY, WHITE } from "../static/styles";
+import { BLUE, GREEN, LIGHT_GREY, PRIMARY, WHITE } from "../static/styles";
 import { ButtonStyles as Button } from "./ButtonStyles";
 
 export const customTheme = extendTheme({
@@ -16,7 +16,7 @@ export const customTheme = extendTheme({
     lightOrange: "#FFEFE2",
     lightGreen: "#EBFDEE",
     lightPurple: "#725DFF",
-    lightGrey: "#EAEBED",
+    lightGrey: LIGHT_GREY,
     lightGrey1: "#CBCED1",
   },
   components: {
