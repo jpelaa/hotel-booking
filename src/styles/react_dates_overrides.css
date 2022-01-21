@@ -1,8 +1,7 @@
 .CalendarDay__selected_span,
 .CalendarDay__selected_span:hover {
-  background: var(--chakra-colors-switchPrimary);
-  color: white;
-  border: 1px solid var(--chakra-colors-switchPrimary);
+  background: var(--chakra-colors-lightBlue);
+  color: black;
 }
 
 .CalendarDay__selected,
@@ -14,6 +13,7 @@
 
 .CalendarDay__hovered_span:hover,
 .CalendarDay__hovered_span {
-  background: var(--chakra-colors-switchPrimary);
+  background: var(--chakra-colors-gray-200);
+  color: black;
   border: 1px solid var(--chakra-colors-switchPrimary);
 }

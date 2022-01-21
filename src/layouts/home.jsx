@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   FormControl,
@@ -21,7 +21,6 @@ import {
   SimpleGrid,
   useBoolean,
   useDisclosure,
-  useNumberInput,
   IconButton,
   useToast,
 } from "@chakra-ui/react";
@@ -30,6 +29,7 @@ import {
   UPDATE_HOTEL_VALUE,
   useHotelContext,
 } from "../hotel-context";
+import useCounts from "../hooks/useCounts";
 import Payments from "./payments";
 import { DayPickerRangeController } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
@@ -52,21 +52,77 @@ const Home = (props) => {
 
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(null);
+  const [roomTypes, setRoomTypes] = useState([]);
+  const [roomTypesAPILoadingStatus, setRoomTypesAPILoadingStatus] =
+    useState(false);
+
   const [startDatePopOver, setStartDatePopOver] = useBoolean();
   const [endDatePopOver, setEndDatePopOver] = useBoolean();
 
   const [focusedInput, setFocusedInput] = useState("startDate");
 
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({
-      defaultValue: 0,
-      min: 0,
-      max: 6,
-    });
+  const {
+    adultInc,
+    adultDec,
+    adultInput,
+    childrenInc,
+    childrenDec,
+    childrenInput,
+    roomsInc,
+    roomsDec,
+    roomsInput,
+    noOfAdults,
+    noOfChildren,
+    noOfRooms,
+  } = useCounts();
 
-  const inc = getIncrementButtonProps();
-  const dec = getDecrementButtonProps();
-  const input = getInputProps({ isReadOnly: true });
+  useEffect(() => {
+    dispatch({
+      type: UPDATE_HOTEL_VALUE,
+      payload: {
+        keyName: "noOfRooms",
+        value: Number(noOfRooms),
+      },
+    });
+  }, [noOfRooms]);
+
+  useEffect(() => {
+    dispatch({
+      type: UPDATE_HOTEL_VALUE,
+      payload: {
+        keyName: "noOfAdults",
+        value: Number(noOfAdults),
+      },
+    });
+  }, [noOfAdults]);
+
+  useEffect(() => {
+    dispatch({
+      type: UPDATE_HOTEL_VALUE,
+      payload: {
+        keyName: "noOfChildren",
+        value: Number(noOfChildren),
+      },
+    });
+  }, [noOfChildren]);
+
+  useEffect(() => {
+    async function fetchRoomTypes() {
+      setRoomTypesAPILoadingStatus(true);
+      const res = await fetch("http://localhost:3001/roomTypes", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const roomTypesJSON = await res.json();
+      setRoomTypes(roomTypesJSON);
+      setRoomTypesAPILoadingStatus(false);
+    }
+    fetchRoomTypes();
+  }, []);
 
   const handleClear = () => {
     dispatch({ type: RESET_HOTEL_VALUE });
@@ -114,6 +170,7 @@ const Home = (props) => {
                   <FormLabel color="#1F2223">Arrival</FormLabel>
                   <Input
                     {...INPUT_STYLES}
+                    type="date"
                     placeholder="Date"
                     value={moment(startDate).format("YYYY-MM-DD")}
                   />
@@ -127,6 +184,9 @@ const Home = (props) => {
                     console.log(value, "startDate, endDate ");
                     setStartDate(value.startDate);
                     setEndDate(value.endDate);
+                    if (value.endDate) {
+                      setStartDatePopOver.off();
+                    }
                   }}
                   focusedInput={focusedInput}
                   onFocusChange={(value) =>
@@ -144,7 +204,7 @@ const Home = (props) => {
               placement="bottom-end"
               isOpen={endDatePopOver}
               onOpen={setEndDatePopOver.on}
-              onClose={setStartDatePopOver.on}
+              onClose={setEndDatePopOver.on}
             >
               <PopoverTrigger>
                 <FormControl id="departureDate">
@@ -164,6 +224,9 @@ const Home = (props) => {
                   onDatesChange={(value) => {
                     setStartDate(value.startDate);
                     setEndDate(value.endDate);
+                    if (value.endDate) {
+                      setEndDatePopOver.off();
+                    }
                   }}
                   focusedInput={focusedInput}
                   onFocusChange={(value) =>
@@ -172,7 +235,7 @@ const Home = (props) => {
                   startDate={startDate}
                   endDate={endDate}
                   numberOfMonths={2}
-                  keepOpenOnDateSelect={true}
+                  hideKeyboardShortcutsPanel={true}
                 />
               </PopoverContent>
             </Popover>
@@ -181,11 +244,11 @@ const Home = (props) => {
             <FormControl id="adults">
               <FormLabel>Adults</FormLabel>
               <HStack>
-                <Button variant="icon" {...inc}>
+                <Button variant="icon" {...adultInc}>
                   +
                 </Button>
-                <Input {...INPUT_STYLES} {...input} />
-                <Button variant="icon" {...dec}>
+                <Input {...INPUT_STYLES} {...adultInput} />
+                <Button variant="icon" {...adultDec}>
                   -
                 </Button>
               </HStack>
@@ -193,11 +256,11 @@ const Home = (props) => {
             <FormControl id="children">
               <FormLabel>Children</FormLabel>
               <HStack>
-                <Button variant="icon" {...inc}>
+                <Button variant="icon" {...childrenInc}>
                   +
                 </Button>
-                <Input {...INPUT_STYLES} {...input} />
-                <Button variant="icon" {...dec}>
+                <Input {...INPUT_STYLES} {...childrenInput} />
+                <Button variant="icon" {...childrenDec}>
                   -
                 </Button>
               </HStack>
@@ -205,11 +268,11 @@ const Home = (props) => {
             <FormControl id="rooms">
               <FormLabel>Rooms</FormLabel>
               <HStack>
-                <Button variant="icon" {...inc}>
+                <Button variant="icon" {...roomsInc}>
                   +
                 </Button>
-                <Input {...INPUT_STYLES} {...input} />
-                <Button variant="icon" {...dec}>
+                <Input {...INPUT_STYLES} {...roomsInput} />
+                <Button variant="icon" {...roomsDec}>
                   -
                 </Button>
               </HStack>
@@ -217,11 +280,44 @@ const Home = (props) => {
           </Grid>
           <FormControl id="roomType">
             <FormLabel color="#1F2223">Room Type</FormLabel>
-            <Select {...INPUT_STYLES} placeholder="Select the Room Type">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
+            {roomTypesAPILoadingStatus ? (
+              <p>Loading...</p>
+            ) : (
+              <Select
+                {...INPUT_STYLES}
+                placeholder="Select the Room Type"
+                value={state.roomType}
+                onChange={(e) => {
+                  let ratePerRoom = 0;
+                  const selectedRoomType = e.target.value;
+
+                  const roomValueObj = roomTypes.find(
+                    (roomData) => roomData.roomId == selectedRoomType
+                  );
+                  if (roomValueObj && roomValueObj.roomRate) {
+                    ratePerRoom = roomValueObj.roomRate;
+                  }
+                  dispatch({
+                    type: UPDATE_HOTEL_VALUE,
+                    payload: {
+                      keyName: "ratePerRoom",
+                      value: Number(ratePerRoom),
+                    },
+                  });
+                  dispatch({
+                    type: UPDATE_HOTEL_VALUE,
+                    payload: {
+                      keyName: "roomType",
+                      value: e.target.value,
+                    },
+                  });
+                }}
+              >
+                {roomTypes.map((roomData) => (
+                  <option value={roomData.roomId}>{roomData.roomType}</option>
+                ))}
+              </Select>
+            )}
           </FormControl>
           <Grid templateColumns="repeat(3,1fr)" gap={6}>
             <FormControl id="arrivalDate">
@@ -233,6 +329,7 @@ const Home = (props) => {
                 color="#1F2223"
                 bg="#FFFFFF"
                 allowMouseWheel
+                value={state.ratePerRoom}
                 onChange={(value) =>
                   dispatch({
                     type: UPDATE_HOTEL_VALUE,
