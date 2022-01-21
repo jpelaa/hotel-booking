@@ -4,7 +4,7 @@ import "./index.css";
 import Routes from "./routes";
 import { ChakraProvider } from "@chakra-ui/react";
 import { customTheme } from "./styles/theme";
-import { HotelProvider } from "./hotel-context";
+import { HotelProvider } from "./contexts/hotel-context";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -28,7 +28,7 @@ import {
   RESET_HOTEL_VALUE,
   UPDATE_HOTEL_VALUE,
   useHotelContext,
-} from "../hotel-context";
+} from "../contexts/hotel-context";
 import useCounts from "../hooks/useCounts";
 import Payments from "./payments";
 import { DayPickerRangeController } from "react-dates";
@@ -36,10 +36,13 @@ import "react-dates/lib/css/_datepicker.css";
 import "react-dates/initialize";
 import "../styles/react_dates_overrides.css";
 import moment from "moment";
-import { INPUT_STYLES } from "../static/styles";
+import { ERROR_TOAST_STYLE, INPUT_STYLES } from "../static/styles";
 import { AddIcon } from "@chakra-ui/icons";
 import AddGuest from "./addguest";
 import AutoComplete from "../components/AutoComplete";
+import { PaymentProvider } from "../contexts/payment-contet";
+import { itemToString, searchGuest } from "../utils/common";
+import useDebounce from "../hooks/useDebouce";
 
 const Home = (props) => {
   const { state, dispatch } = useHotelContext();
@@ -51,10 +54,16 @@ const Home = (props) => {
   } = useDisclosure();
 
   const [startDate, setStartDate] = useState(moment());
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState(moment().add(1, "d"));
   const [roomTypes, setRoomTypes] = useState([]);
   const [roomTypesAPILoadingStatus, setRoomTypesAPILoadingStatus] =
     useState(false);
+
+  //Guest Search States
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [isSearching, setIsSearching] = useState("");
 
   const [startDatePopOver, setStartDatePopOver] = useBoolean();
   const [endDatePopOver, setEndDatePopOver] = useBoolean();
@@ -124,9 +133,84 @@ const Home = (props) => {
     fetchRoomTypes();
   }, []);
 
+  useEffect(() => {
+    if (startDate && endDate) {
+      console.log(startDate, endDate, endDate.diff(startDate, "d"), " days ");
+      const noOfNights = endDate.diff(startDate, "d");
+      dispatch({
+        type: UPDATE_HOTEL_VALUE,
+        payload: {
+          keyName: "noOfNights",
+          value: Number(noOfNights),
+        },
+      });
+    }
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    if (state.noOfRooms && state.noOfNights && state.ratePerRoom) {
+      const estimatedCost =
+        state.noOfRooms * state.noOfNights * state.ratePerRoom;
+      dispatch({
+        type: UPDATE_HOTEL_VALUE,
+        payload: {
+          keyName: "estimatedCost",
+          value: Number(estimatedCost),
+        },
+      });
+    }
+  }, [state.noOfRooms, state.noOfNights, state.ratePerRoom]);
+
   const handleClear = () => {
     dispatch({ type: RESET_HOTEL_VALUE });
   };
+
+  //Guest Search
+  const debouncedSearchTerm = useDebounce(searchValue, 500);
+  // Effect for API call
+  useEffect(
+    () => {
+      if (debouncedSearchTerm) {
+        setIsSearching(true);
+        searchGuest(debouncedSearchTerm).then((results) => {
+          setIsSearching(false);
+          setSuggestions(results);
+        });
+      } else {
+        setSuggestions([]);
+        setIsSearching(false);
+      }
+    },
+    [debouncedSearchTerm] // Only call effect if debounced search term changes
+  );
+
+  const handleSelectedItemChange = (val) => {
+    console.log(val, " values oasdas ");
+    setSelectedItem(val.selectedItem);
+    dispatch({
+      type: UPDATE_HOTEL_VALUE,
+      payload: {
+        keyName: "guestId",
+        value: val.selectedItem.id,
+      },
+    });
+  };
+
+  const handleSuggestions = ({ inputValue }) => {
+    setSearchValue(inputValue);
+  };
+
+  const clearSelection = () => {
+    setSelectedItem(null);
+    dispatch({
+      type: UPDATE_HOTEL_VALUE,
+      payload: {
+        keyName: "guestId",
+        value: "",
+      },
+    });
+  };
+
   const toast = useToast();
 
   console.log(state, " state of asdasd");
@@ -149,8 +233,16 @@ const Home = (props) => {
           <FormControl id="searchGuestName">
             <FormLabel>Guest Name</FormLabel>
             <HStack spacing="2">
-              {/* <Input {...INPUT_STYLES} type="text" placeholder="Search" /> */}
-              <AutoComplete />
+              <AutoComplete
+                searchValue={searchValue}
+                selectedItem={selectedItem}
+                suggestions={suggestions}
+                itemToString={itemToString}
+                isSearching={isSearching}
+                handleSelectedItemChange={handleSelectedItemChange}
+                handleSuggestions={handleSuggestions}
+                clearSelection={clearSelection}
+              />
               <IconButton
                 aria-label="Add Guest"
                 icon={<AddIcon />}
@@ -173,6 +265,7 @@ const Home = (props) => {
                     type="date"
                     placeholder="Date"
                     value={moment(startDate).format("YYYY-MM-DD")}
+                    isReadOnly
                   />
                 </FormControl>
               </PopoverTrigger>
@@ -214,6 +307,7 @@ const Home = (props) => {
                     {...INPUT_STYLES}
                     placeholder="Date"
                     value={moment(endDate).format("YYYY-MM-DD")}
+                    isReadOnly
                   />
                 </FormControl>
               </PopoverTrigger>
@@ -292,7 +386,7 @@ const Home = (props) => {
                   const selectedRoomType = e.target.value;
 
                   const roomValueObj = roomTypes.find(
-                    (roomData) => roomData.roomId == selectedRoomType
+                    (roomData) => roomData.roomId === selectedRoomType
                   );
                   if (roomValueObj && roomValueObj.roomRate) {
                     ratePerRoom = roomValueObj.roomRate;
@@ -314,7 +408,9 @@ const Home = (props) => {
                 }}
               >
                 {roomTypes.map((roomData) => (
-                  <option value={roomData.roomId}>{roomData.roomType}</option>
+                  <option key={roomData.roomId} value={roomData.roomId}>
+                    {roomData.roomType}
+                  </option>
                 ))}
               </Select>
             )}
@@ -356,6 +452,8 @@ const Home = (props) => {
                 color="#1F2223"
                 bg="#FFFFFF"
                 allowMouseWheel
+                value={state.noOfNights}
+                isReadOnly
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -373,6 +471,16 @@ const Home = (props) => {
                 color="#1F2223"
                 bg="#FFFFFF"
                 allowMouseWheel
+                value={state.estimatedCost}
+                onChange={(value) =>
+                  dispatch({
+                    type: UPDATE_HOTEL_VALUE,
+                    payload: {
+                      keyName: "estimatedCost",
+                      value: Number(value),
+                    },
+                  })
+                }
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -385,7 +493,24 @@ const Home = (props) => {
 
           <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
             <Button onClick={() => {}}>SAVE</Button>
-            <Button variant="secondary" onClick={onOpen}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (state.guestId) {
+                  onOpen();
+                } else {
+                  toast({
+                    title: "No Guest Selected",
+                    status: "error",
+                    description:
+                      "Please select guest then only you can proceed payments",
+                    containerStyle: ERROR_TOAST_STYLE,
+                    duration: 2000,
+                    isClosable: true,
+                  });
+                }
+              }}
+            >
               PAYMENT
             </Button>
             <Button variant="primaryOutline" onClick={handleClear}>
@@ -395,7 +520,9 @@ const Home = (props) => {
         </Grid>
         <Box></Box>
       </Grid>
-      <Payments isOpen={isOpen} onClose={onClose} />
+      <PaymentProvider>
+        <Payments isOpen={isOpen} onClose={onClose} />
+      </PaymentProvider>
       <AddGuest
         onModalClose={onModalClose}
         onModalOpen={onModalOpen}

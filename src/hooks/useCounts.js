@@ -7,7 +7,7 @@ const useCounts = () => {
     getIncrementButtonProps: getIncrementButtonPropsAdult,
     getDecrementButtonProps: getDecrementButtonPropsAdult,
   } = useNumberInput({
-    defaultValue: 0,
+    defaultValue: 1,
     min: 0,
     max: 6,
   });
@@ -29,7 +29,7 @@ const useCounts = () => {
     getIncrementButtonProps: getIncrementButtonPropsRooms,
     getDecrementButtonProps: getDecrementButtonPropsRooms,
   } = useNumberInput({
-    defaultValue: 0,
+    defaultValue: 1,
     min: 0,
     max: 6,
   });

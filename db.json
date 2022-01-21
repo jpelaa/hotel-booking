@@ -33,8 +33,9 @@
       "guestId": "",
       "paymentDate": "",
       "mode": "",
+      "others": "",
       "desc": "",
-      "amount": 1
+      "amount": 0
     }
   ],
   "roomTypes": [
@@ -57,6 +58,21 @@
       "roomId": "4",
       "roomType": "Quad room",
       "roomRate": 44
+    }
+  ],
+  "checkIns": [
+    {
+      "guestId": null,
+      "arrivalDate": null,
+      "departureDate": null,
+      "noOfAdults": 0,
+      "noOfChildren": 0,
+      "noOfRooms": 0,
+      "roomType": "",
+      "ratePerRoom": 0,
+      "noOfNights": 0,
+      "estimatedCost": 0,
+      "isCheckout": false
     }
   ]
 }
