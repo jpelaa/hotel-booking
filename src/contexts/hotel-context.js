@@ -6,7 +6,7 @@ export const RESET_HOTEL_VALUE = "RESET_HOTEL_VALUE";
 const HotelContext = React.createContext();
 
 const initialState = {
-  guestName: null,
+  guestId: "",
   arrivalDate: null,
   departureDate: null,
   noOfAdults: 0,

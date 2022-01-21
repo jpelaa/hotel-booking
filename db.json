@@ -27,17 +27,52 @@
       "id": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb"
     }
   ],
-  "payments" : [{
-    "paymentId" : "",
-    "guestId" : "",
-    "paymentDate" : "",
-    "mode" : "",
-    "desc" : "",
-    "amount" : 1
-  }],
-  "roomTypes" : [{
-    "roomId" : "",
-    "roomType" : "",
-    "roomRate" : 1
-  }]
+  "payments": [
+    {
+      "paymentId": "",
+      "guestId": "",
+      "paymentDate": "",
+      "mode": "",
+      "others": "",
+      "desc": "",
+      "amount": 0
+    }
+  ],
+  "roomTypes": [
+    {
+      "roomId": "1",
+      "roomType": "Single room",
+      "roomRate": 12
+    },
+    {
+      "roomId": "2",
+      "roomType": "Double room",
+      "roomRate": 24
+    },
+    {
+      "roomId": "3",
+      "roomType": "Triple room",
+      "roomRate": 34
+    },
+    {
+      "roomId": "4",
+      "roomType": "Quad room",
+      "roomRate": 44
+    }
+  ],
+  "checkIns": [
+    {
+      "guestId": null,
+      "arrivalDate": null,
+      "departureDate": null,
+      "noOfAdults": 0,
+      "noOfChildren": 0,
+      "noOfRooms": 0,
+      "roomType": "",
+      "ratePerRoom": 0,
+      "noOfNights": 0,
+      "estimatedCost": 0,
+      "isCheckout": false
+    }
+  ]
 }

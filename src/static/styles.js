@@ -16,8 +16,9 @@ export const INPUT_STYLES = {
 
 export const COMBO_BOX_STYLES = {
   width: "100%",
-  // backgroundColor: "red",
+  minHeight: 50,
   maxHeight: 250,
+  bg: WHITE,
   overflowY: "auto",
   position: "absolute",
   margin: 0,
@@ -25,6 +26,10 @@ export const COMBO_BOX_STYLES = {
   zIndex: 1000,
   borderColor: PRIMARY,
   border: "1px solid",
+};
+
+export const DISPLAY_HIDDEN = {
+  display: "none",
 };
 
 export const LIST_STYLES = {
