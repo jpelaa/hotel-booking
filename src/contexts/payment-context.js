@@ -1,23 +1,28 @@
 import * as React from "react";
+import moment from "moment";
 
 export const UPDATE_PAYMENT_VALUE = "UPDATE_PAYMENT_VALUE";
 export const RESET_PAYMENT_VALUE = "RESET_PAYMENT_VALUE";
-
+export const UPDATE_PAYMENT = "UPDATE_PAYMENT";
 const PaymentContext = React.createContext();
 
 const initialState = {
+  id: "",
   guestId: "",
-  paymentDate: "",
-  mode: "",
+  paymentDate: moment(),
+  mode: "1",
   others: "",
   desc: "",
-  amount: 0,
+  amount: null,
 };
 
 function paymentReducer(state, action) {
   switch (action.type) {
     case UPDATE_PAYMENT_VALUE: {
       return { ...state, [action.payload.keyName]: action.payload.value };
+    }
+    case UPDATE_PAYMENT: {
+      return { ...state, ...action.payload };
     }
     case RESET_PAYMENT_VALUE: {
       return initialState;

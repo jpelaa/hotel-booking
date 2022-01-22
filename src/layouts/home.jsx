@@ -24,8 +24,10 @@ import {
   IconButton,
   useToast,
 } from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
 import {
   RESET_HOTEL_VALUE,
+  UPDATE_HOTEL,
   UPDATE_HOTEL_VALUE,
   useHotelContext,
 } from "../contexts/hotel-context";
@@ -36,13 +38,18 @@ import "react-dates/lib/css/_datepicker.css";
 import "react-dates/initialize";
 import "../styles/react_dates_overrides.css";
 import moment from "moment";
-import { ERROR_TOAST_STYLE, INPUT_STYLES } from "../static/styles";
+import {
+  ERROR_TOAST_STYLE,
+  INPUT_STYLES,
+  SUCCESS_TOAST_STYLE,
+} from "../static/styles";
 import { AddIcon } from "@chakra-ui/icons";
 import AddGuest from "./addguest";
 import AutoComplete from "../components/AutoComplete";
-import { PaymentProvider } from "../contexts/payment-contet";
+import { PaymentProvider } from "../contexts/payment-context";
 import { itemToString, searchGuest } from "../utils/common";
 import useDebounce from "../hooks/useDebouce";
+import { API_STATUS } from "../static/common";
 
 const Home = (props) => {
   const { state, dispatch } = useHotelContext();
@@ -53,17 +60,20 @@ const Home = (props) => {
     onClose: onModalClose,
   } = useDisclosure();
 
-  const [startDate, setStartDate] = useState(moment());
-  const [endDate, setEndDate] = useState(moment().add(1, "d"));
   const [roomTypes, setRoomTypes] = useState([]);
   const [roomTypesAPILoadingStatus, setRoomTypesAPILoadingStatus] =
     useState(false);
+
+  const [checkInAPILoadingStatus, setCheckInAPILoadingStatus] = useState(
+    API_STATUS.init
+  );
 
   //Guest Search States
   const [selectedItem, setSelectedItem] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isSearching, setIsSearching] = useState("");
+  const [hasAlreadySaved, setHasAlreadySaved] = useState(false);
 
   const [startDatePopOver, setStartDatePopOver] = useBoolean();
   const [endDatePopOver, setEndDatePopOver] = useBoolean();
@@ -134,9 +144,11 @@ const Home = (props) => {
   }, []);
 
   useEffect(() => {
-    if (startDate && endDate) {
-      console.log(startDate, endDate, endDate.diff(startDate, "d"), " days ");
-      const noOfNights = endDate.diff(startDate, "d");
+    if (state.arrivalDate && state.departureDate) {
+      const departureDate = moment(state.departureDate);
+      const arrivalDate = moment(state.arrivalDate);
+
+      const noOfNights = departureDate.diff(arrivalDate, "d");
       dispatch({
         type: UPDATE_HOTEL_VALUE,
         payload: {
@@ -145,7 +157,7 @@ const Home = (props) => {
         },
       });
     }
-  }, [startDate, endDate]);
+  }, [state.arrivalDate, state.departureDate]);
 
   useEffect(() => {
     if (state.noOfRooms && state.noOfNights && state.ratePerRoom) {
@@ -184,16 +196,42 @@ const Home = (props) => {
     [debouncedSearchTerm] // Only call effect if debounced search term changes
   );
 
-  const handleSelectedItemChange = (val) => {
+  const handleSelectedItemChange = async (val) => {
     console.log(val, " values oasdas ");
-    setSelectedItem(val.selectedItem);
-    dispatch({
-      type: UPDATE_HOTEL_VALUE,
-      payload: {
-        keyName: "guestId",
-        value: val.selectedItem.id,
-      },
-    });
+    try {
+      const guestId = val.selectedItem.id;
+      setSelectedItem(val.selectedItem);
+      const res = await fetch(
+        `http://localhost:3001/checkIns?guestId=${guestId}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch({
+        type: UPDATE_HOTEL_VALUE,
+        payload: {
+          keyName: "guestId",
+          value: guestId,
+        },
+      });
+      const checkInListJSON = await res.json();
+      if (checkInListJSON.length === 1) {
+        const checkInData = checkInListJSON[0];
+        dispatch({
+          type: UPDATE_HOTEL,
+          payload: { ...checkInData },
+        });
+        setHasAlreadySaved(true);
+      } else {
+        setHasAlreadySaved(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSuggestions = ({ inputValue }) => {
@@ -209,6 +247,58 @@ const Home = (props) => {
         value: "",
       },
     });
+  };
+
+  //Save function
+  const handleSave = async () => {
+    try {
+      const body = { ...state };
+      setCheckInAPILoadingStatus(API_STATUS.inProgress);
+      if (hasAlreadySaved) {
+        await fetch(`http://localhost:3001/checkIns/${state.id}`, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+      } else {
+        const id = uuidv4();
+        await fetch("http://localhost:3001/checkIns", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...body, id }),
+        });
+      }
+
+      const text = `You've successfully ${
+        hasAlreadySaved ? "Updated" : ""
+      } CheckedIn.`;
+      toast({
+        title: "Guest CheckedIn",
+        status: "success",
+        description: text,
+        containerStyle: SUCCESS_TOAST_STYLE,
+        duration: 2000,
+        isClosable: true,
+      });
+      setCheckInAPILoadingStatus(API_STATUS.success);
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Guest CheckIn Failed",
+        status: "error",
+        description: "Guest is not checkedin",
+        containerStyle: ERROR_TOAST_STYLE,
+        duration: 2000,
+        isClosable: true,
+      });
+      setCheckInAPILoadingStatus(API_STATUS.failed);
+    }
   };
 
   const toast = useToast();
@@ -264,7 +354,7 @@ const Home = (props) => {
                     {...INPUT_STYLES}
                     type="date"
                     placeholder="Date"
-                    value={moment(startDate).format("YYYY-MM-DD")}
+                    value={moment(state.arrivalDate).format("YYYY-MM-DD")}
                     isReadOnly
                   />
                 </FormControl>
@@ -275,8 +365,20 @@ const Home = (props) => {
                   onOutsideClick={setStartDatePopOver.off}
                   onDatesChange={(value) => {
                     console.log(value, "startDate, endDate ");
-                    setStartDate(value.startDate);
-                    setEndDate(value.endDate);
+                    dispatch({
+                      type: UPDATE_HOTEL_VALUE,
+                      payload: {
+                        keyName: "arrivalDate",
+                        value: value.startDate,
+                      },
+                    });
+                    dispatch({
+                      type: UPDATE_HOTEL_VALUE,
+                      payload: {
+                        keyName: "departureDate",
+                        value: value.endDate,
+                      },
+                    });
                     if (value.endDate) {
                       setStartDatePopOver.off();
                     }
@@ -285,8 +387,8 @@ const Home = (props) => {
                   onFocusChange={(value) =>
                     setFocusedInput(value || "startDate")
                   }
-                  startDate={startDate}
-                  endDate={endDate}
+                  startDate={moment(state.arrivalDate)}
+                  endDate={moment(state.departureDate)}
                   numberOfMonths={2}
                   keepOpenOnDateSelect={true}
                   hideKeyboardShortcutsPanel={true}
@@ -306,7 +408,7 @@ const Home = (props) => {
                     type="date"
                     {...INPUT_STYLES}
                     placeholder="Date"
-                    value={moment(endDate).format("YYYY-MM-DD")}
+                    value={moment(state.departureDate).format("YYYY-MM-DD")}
                     isReadOnly
                   />
                 </FormControl>
@@ -316,8 +418,20 @@ const Home = (props) => {
                 <DayPickerRangeController
                   onOutsideClick={setEndDatePopOver.off}
                   onDatesChange={(value) => {
-                    setStartDate(value.startDate);
-                    setEndDate(value.endDate);
+                    dispatch({
+                      type: UPDATE_HOTEL_VALUE,
+                      payload: {
+                        keyName: "arrivalDate",
+                        value: value.startDate,
+                      },
+                    });
+                    dispatch({
+                      type: UPDATE_HOTEL_VALUE,
+                      payload: {
+                        keyName: "departureDate",
+                        value: value.endDate,
+                      },
+                    });
                     if (value.endDate) {
                       setEndDatePopOver.off();
                     }
@@ -326,8 +440,8 @@ const Home = (props) => {
                   onFocusChange={(value) =>
                     setFocusedInput(value || "startDate")
                   }
-                  startDate={startDate}
-                  endDate={endDate}
+                  startDate={moment(state.arrivalDate)}
+                  endDate={moment(state.departureDate)}
                   numberOfMonths={2}
                   hideKeyboardShortcutsPanel={true}
                 />
@@ -341,7 +455,11 @@ const Home = (props) => {
                 <Button variant="icon" {...adultInc}>
                   +
                 </Button>
-                <Input {...INPUT_STYLES} {...adultInput} />
+                <Input
+                  {...INPUT_STYLES}
+                  {...adultInput}
+                  value={state.noOfAdults}
+                />
                 <Button variant="icon" {...adultDec}>
                   -
                 </Button>
@@ -353,7 +471,11 @@ const Home = (props) => {
                 <Button variant="icon" {...childrenInc}>
                   +
                 </Button>
-                <Input {...INPUT_STYLES} {...childrenInput} />
+                <Input
+                  {...INPUT_STYLES}
+                  {...childrenInput}
+                  value={state.noOfChildren}
+                />
                 <Button variant="icon" {...childrenDec}>
                   -
                 </Button>
@@ -365,7 +487,11 @@ const Home = (props) => {
                 <Button variant="icon" {...roomsInc}>
                   +
                 </Button>
-                <Input {...INPUT_STYLES} {...roomsInput} />
+                <Input
+                  {...INPUT_STYLES}
+                  {...roomsInput}
+                  value={state.noOfRooms}
+                />
                 <Button variant="icon" {...roomsDec}>
                   -
                 </Button>
@@ -492,7 +618,13 @@ const Home = (props) => {
           </Grid>
 
           <Grid templateColumns="repeat(3,1fr)" gap={6} p="8">
-            <Button onClick={() => {}}>SAVE</Button>
+            <Button
+              isLoading={checkInAPILoadingStatus === API_STATUS.inProgress}
+              loadingText="Checking In..."
+              onClick={handleSave}
+            >
+              SAVE
+            </Button>
             <Button
               variant="secondary"
               onClick={() => {
@@ -520,9 +652,16 @@ const Home = (props) => {
         </Grid>
         <Box></Box>
       </Grid>
-      <PaymentProvider>
-        <Payments isOpen={isOpen} onClose={onClose} />
-      </PaymentProvider>
+      {isOpen && (
+        <PaymentProvider>
+          <Payments
+            guestId={state.guestId}
+            isCheckedOut={state.isCheckedOut}
+            isOpen={isOpen}
+            onClose={onClose}
+          />
+        </PaymentProvider>
+      )}
       <AddGuest
         onModalClose={onModalClose}
         onModalOpen={onModalOpen}

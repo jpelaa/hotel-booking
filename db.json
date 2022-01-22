@@ -29,13 +29,41 @@
   ],
   "payments": [
     {
-      "paymentId": "",
-      "guestId": "",
-      "paymentDate": "",
-      "mode": "",
+      "id": "f0dbf6e3-1ace-4c02-a53a-8976389c6005",
+      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
+      "paymentDate": "2022-01-28T06:30:00.000Z",
+      "mode": "2",
       "others": "",
-      "desc": "",
-      "amount": 0
+      "desc": "desc",
+      "amount": 23323
+    },
+    {
+      "id": "d8465a8a-b3d1-4e57-ae30-e5c174cf9a5d",
+      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
+      "paymentDate": "2022-01-31T06:30:00.000Z",
+      "mode": "3",
+      "others": "",
+      "desc": "aasdasd",
+      "amount": 12123
+    },
+    {
+      "id": "d890a2fc-0f2f-4ca7-a38e-8216622b251d",
+      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
+      "paymentDate": "2022-01-28T06:30:00.000Z",
+      "mode": "3",
+      "others": "",
+      "desc": "asdasd",
+      "amount": 212312
+    },
+    {
+      "id": "7ae93f59-6107-43c4-8b35-48deab87b051",
+      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
+      "paymentDate": "2022-01-27T06:30:00.000Z",
+      "mode": "3",
+      "others": "",
+      "desc": "deasdads",
+      "amount": 1,
+      "paymentId": "7ae93f59-6107-43c4-8b35-48deab87b051"
     }
   ],
   "roomTypes": [
@@ -62,17 +90,18 @@
   ],
   "checkIns": [
     {
-      "guestId": null,
-      "arrivalDate": null,
-      "departureDate": null,
-      "noOfAdults": 0,
+      "id": "fed16452-0df6-47e8-b7c7-c2cf3df5873c",
+      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
+      "arrivalDate": "2022-01-25T06:30:00.000Z",
+      "departureDate": "2022-01-29T06:30:00.000Z",
+      "noOfAdults": 3,
       "noOfChildren": 0,
-      "noOfRooms": 0,
-      "roomType": "",
-      "ratePerRoom": 0,
-      "noOfNights": 0,
-      "estimatedCost": 0,
-      "isCheckout": false
+      "noOfRooms": 3,
+      "roomType": "2",
+      "ratePerRoom": 24,
+      "noOfNights": 4,
+      "estimatedCost": 288,
+      "isCheckedOut": false
     }
   ]
 }
