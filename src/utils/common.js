@@ -12,3 +12,12 @@ export const searchGuest = (search) => {
       return [];
     });
 };
+
+export const getTotalAmount = (paymentList) => {
+  return paymentList.reduce((acc, current) => {
+    if (current.amount) {
+      acc = acc + current.amount;
+    }
+    return acc;
+  }, 0);
+};

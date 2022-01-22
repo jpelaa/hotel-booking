@@ -1,14 +1,17 @@
+import moment from "moment";
 import * as React from "react";
 
 export const UPDATE_HOTEL_VALUE = "UPDATE_HOTEL_VALUE";
+export const UPDATE_HOTEL = "UPDATE_HOTEL";
 export const RESET_HOTEL_VALUE = "RESET_HOTEL_VALUE";
 
 const HotelContext = React.createContext();
 
 const initialState = {
+  id: "",
   guestId: "",
-  arrivalDate: null,
-  departureDate: null,
+  arrivalDate: moment(),
+  departureDate: moment().add(1, "d"),
   noOfAdults: 0,
   noOfChildren: 0,
   noOfRooms: 0,
@@ -16,12 +19,16 @@ const initialState = {
   ratePerRoom: 0,
   noOfNights: 0,
   estimatedCost: 0,
+  isCheckedOut: false,
 };
 
 function hotelReducer(state, action) {
   switch (action.type) {
     case UPDATE_HOTEL_VALUE: {
       return { ...state, [action.payload.keyName]: action.payload.value };
+    }
+    case UPDATE_HOTEL: {
+      return { ...state, ...action.payload };
     }
     case RESET_HOTEL_VALUE: {
       return initialState;
