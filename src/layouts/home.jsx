@@ -67,7 +67,8 @@ const Home = (props) => {
   const [checkInAPILoadingStatus, setCheckInAPILoadingStatus] = useState(
     API_STATUS.init
   );
-
+  const [checkoutAPILoadingStatus, setCheckoutAPILoadingStatus] =
+    useState(false);
   //Guest Search States
   const [selectedItem, setSelectedItem] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
@@ -197,7 +198,6 @@ const Home = (props) => {
   );
 
   const handleSelectedItemChange = async (val) => {
-    console.log(val, " values oasdas ");
     try {
       const guestId = val.selectedItem.id;
       setSelectedItem(val.selectedItem);
@@ -241,11 +241,7 @@ const Home = (props) => {
   const clearSelection = () => {
     setSelectedItem(null);
     dispatch({
-      type: UPDATE_HOTEL_VALUE,
-      payload: {
-        keyName: "guestId",
-        value: "",
-      },
+      type: RESET_HOTEL_VALUE,
     });
   };
 
@@ -301,11 +297,50 @@ const Home = (props) => {
     }
   };
 
+  //Check out
+  const handleCheckoutChange = async () => {
+    if (hasAlreadySaved) {
+      const body = { ...state, isCheckedOut: true };
+      setCheckoutAPILoadingStatus(true);
+      await fetch(`http://localhost:3001/checkIns/${state.id}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      dispatch({
+        type: UPDATE_HOTEL_VALUE,
+        payload: {
+          keyName: "isCheckedOut",
+          value: true,
+        },
+      });
+      const text = `You've successfully Checkout.`;
+      toast({
+        title: "Guest Checkout",
+        status: "success",
+        description: text,
+        containerStyle: SUCCESS_TOAST_STYLE,
+        duration: 2000,
+        isClosable: true,
+      });
+      setCheckoutAPILoadingStatus(false);
+    } else {
+      toast({
+        title: "Wrong Checkout",
+        status: "error",
+        description: "Please save this before checkout",
+        containerStyle: ERROR_TOAST_STYLE,
+        duration: 2000,
+        isClosable: true,
+      });
+      setCheckoutAPILoadingStatus(false);
+    }
+  };
+
   const toast = useToast();
-
-  console.log(state, " state of asdasd");
-
-  console.log(focusedInput, " state of asdasd");
 
   return (
     <>
@@ -364,7 +399,6 @@ const Home = (props) => {
                 <DayPickerRangeController
                   onOutsideClick={setStartDatePopOver.off}
                   onDatesChange={(value) => {
-                    console.log(value, "startDate, endDate ");
                     dispatch({
                       type: UPDATE_HOTEL_VALUE,
                       payload: {
@@ -622,6 +656,7 @@ const Home = (props) => {
               isLoading={checkInAPILoadingStatus === API_STATUS.inProgress}
               loadingText="Checking In..."
               onClick={handleSave}
+              disabled={state.isCheckedOut}
             >
               SAVE
             </Button>
@@ -645,8 +680,15 @@ const Home = (props) => {
             >
               PAYMENT
             </Button>
-            <Button variant="primaryOutline" onClick={handleClear}>
-              CLEAR
+            <Button
+              variant={"primaryOutline"}
+              isLoading={checkoutAPILoadingStatus}
+              loadingText="Checking out"
+              colorScheme={state.isCheckedOut ? "blackAlpha" : null}
+              disabled={state.isCheckedOut}
+              onClick={handleCheckoutChange}
+            >
+              {state.isCheckedOut ? "CHECKED OUT" : "CHECK OUT"}
             </Button>
           </Grid>
         </Grid>

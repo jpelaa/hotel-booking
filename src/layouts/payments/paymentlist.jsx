@@ -57,7 +57,9 @@ const PaymentList = ({
       </Tbody>
       <Tfoot>
         <Tr>
-          <Th colSpan={!isCheckedOut ? "3" : "2"}>Total</Th>
+          <Th textAlign="right" colSpan="3">
+            Total
+          </Th>
           <Th isNumeric>{getTotalAmount(paymentList)}</Th>
         </Tr>
       </Tfoot>

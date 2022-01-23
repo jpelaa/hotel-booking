@@ -84,7 +84,6 @@ const Payments = (props) => {
   }, [guestId]);
 
   const handleEdit = (paymentId) => {
-    console.log(paymentId, "paymentId ");
     const selectedPaymentData = paymentList.find(
       (paymentData) => paymentData.id === paymentId
     );
@@ -143,7 +142,7 @@ const Payments = (props) => {
 
   const handleSubmit = async () => {
     try {
-      const body = { ...state };
+      const body = { ...state, guestId };
       setPaymentLoadingStatus(API_STATUS.inProgress);
       if (state.id) {
         await fetch(`http://localhost:3001/payments/${state.id}`, {
@@ -198,11 +197,6 @@ const Payments = (props) => {
     }
   };
 
-  console.log(paymentList, " paymentList ");
-  console.log(paymentListAPILoadingStatus, " paymentListAPILoadingStatus ");
-  console.log(paymentListAPIErrorMessage, " paymentListAPIErrorMessage ");
-  console.log(state, " state of payment ");
-
   return (
     <Drawer
       isOpen={isOpen}
@@ -237,33 +231,37 @@ const Payments = (props) => {
                   <NoPaymentInfo />
                 )}
               </Box>
-              <Payment
-                paymentId={state.id}
-                paymentDate={state.paymentDate}
-                mode={state.mode}
-                desc={state.desc}
-                amount={state.amount}
-                handlePaymentDateChange={handlePaymentDateChange}
-                handleModeChange={handleModeChange}
-                handleDescChange={handleDescChange}
-                handleAmountChange={handleAmountChange}
-              />
+              {!isCheckedOut && (
+                <Payment
+                  paymentId={state.id}
+                  paymentDate={state.paymentDate}
+                  mode={state.mode}
+                  desc={state.desc}
+                  amount={state.amount}
+                  handlePaymentDateChange={handlePaymentDateChange}
+                  handleModeChange={handleModeChange}
+                  handleDescChange={handleDescChange}
+                  handleAmountChange={handleAmountChange}
+                />
+              )}
             </Grid>
           )}
         </DrawerBody>
-        <DrawerFooter borderTopWidth="1px">
-          <Button variant="primaryOutline" mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            isLoading={isPaymentLoadingStatus === API_STATUS.inProgress}
-            loadingText={state.id ? "Updating" : "Submitting"}
-            variant="primary"
-            onClick={handleSubmit}
-          >
-            {state.id ? "Update" : "Submit"}
-          </Button>
-        </DrawerFooter>
+        {!isCheckedOut && (
+          <DrawerFooter borderTopWidth="1px">
+            <Button variant="primaryOutline" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              isLoading={isPaymentLoadingStatus === API_STATUS.inProgress}
+              loadingText={state.id ? "Updating" : "Submitting"}
+              variant="primary"
+              onClick={handleSubmit}
+            >
+              {state.id ? "Update" : "Submit"}
+            </Button>
+          </DrawerFooter>
+        )}
       </DrawerContent>
     </Drawer>
   );
