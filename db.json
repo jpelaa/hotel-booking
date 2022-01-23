@@ -64,6 +64,35 @@
       "desc": "deasdads",
       "amount": 1,
       "paymentId": "7ae93f59-6107-43c4-8b35-48deab87b051"
+    },
+    {
+      "id": "4b032696-7012-4a4b-9f0d-0ab480dd8fa1",
+      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
+      "paymentDate": "2022-01-24T06:30:00.000Z",
+      "mode": "2",
+      "others": "",
+      "desc": "desc",
+      "amount": 1,
+      "paymentId": "4b032696-7012-4a4b-9f0d-0ab480dd8fa1"
+    },
+    {
+      "id": "63e18b35-dd94-40a4-a12a-b3370710417d",
+      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
+      "paymentDate": "2022-01-25T06:30:00.000Z",
+      "mode": "2",
+      "others": "",
+      "desc": "desasd1",
+      "amount": 2
+    },
+    {
+      "id": "e1efd6bf-d340-4480-9e1f-1af5899516a9",
+      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
+      "paymentDate": "2022-01-27T06:30:00.000Z",
+      "mode": "1",
+      "others": "",
+      "desc": "desc3",
+      "amount": 4,
+      "paymentId": "e1efd6bf-d340-4480-9e1f-1af5899516a9"
     }
   ],
   "roomTypes": [
@@ -101,7 +130,21 @@
       "ratePerRoom": 24,
       "noOfNights": 4,
       "estimatedCost": 288,
-      "isCheckedOut": false
+      "isCheckedOut": true
+    },
+    {
+      "id": "dec1c036-93fb-4b1c-a030-59caec4b6072",
+      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
+      "arrivalDate": "2022-01-25T06:30:00.000Z",
+      "departureDate": "2022-01-31T06:30:00.000Z",
+      "noOfAdults": 1,
+      "noOfChildren": 0,
+      "noOfRooms": 1,
+      "roomType": "2",
+      "ratePerRoom": 24,
+      "noOfNights": 6,
+      "estimatedCost": 144,
+      "isCheckedOut": true
     }
   ]
 }

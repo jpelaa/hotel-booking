@@ -72,7 +72,7 @@ const Payment = ({
               onFocusChange={(value) => {
                 setFocusedInput(value || "date");
               }}
-              date={paymentDate}
+              date={moment(paymentDate)}
               numberOfMonths={1}
               keepOpenOnDateSelect={true}
               hideKeyboardShortcutsPanel={true}
