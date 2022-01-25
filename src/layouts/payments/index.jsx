@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { ERROR_TOAST_STYLE, SUCCESS_TOAST_STYLE } from "../../static/styles";
 import { v4 as uuidv4 } from "uuid";
-import { API_STATUS } from "../../static/common";
+import { API_STATUS, API_URL } from "../../static/common";
 import NoPaymentInfo from "./nopaymentinfo";
 import PaymentError from "./paymenterror";
 import PaymentList from "./paymentlist";
@@ -31,7 +31,7 @@ import {
 const Payments = (props) => {
   const firstField = React.useRef();
   const toast = useToast();
-  const { isOpen, onClose, guestId, isCheckedOut } = props;
+  const { isOpen, onClose, checkinId, isCheckedOut } = props;
   const { state, dispatch } = usePaymentContext();
   const [paymentList, setPaymentList] = useState([]);
   const [paymentListAPILoadingStatus, setPaymentListAPILoadingStatus] =
@@ -45,18 +45,15 @@ const Payments = (props) => {
 
   async function fetchPaymentList() {
     try {
-      if (guestId) {
+      if (checkinId) {
         setPaymentListAPILoadingStatus(API_STATUS.inProgress);
-        const res = await fetch(
-          `http://localhost:3001/payments?guestId=${guestId}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const res = await fetch(`${API_URL}payments?checkinId=${checkinId}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
 
         const paymentListJSON = await res.json();
         setPaymentList(paymentListJSON);
@@ -64,8 +61,8 @@ const Payments = (props) => {
         dispatch({
           type: UPDATE_PAYMENT_VALUE,
           payload: {
-            keyName: "guestId",
-            value: guestId,
+            keyName: "checkinId",
+            value: checkinId,
           },
         });
       } else {
@@ -81,7 +78,7 @@ const Payments = (props) => {
 
   useEffect(() => {
     fetchPaymentList();
-  }, [guestId]);
+  }, [checkinId]);
 
   const handleEdit = (paymentId) => {
     const selectedPaymentData = paymentList.find(
@@ -142,10 +139,10 @@ const Payments = (props) => {
 
   const handleSubmit = async () => {
     try {
-      const body = { ...state, guestId };
+      const body = { ...state, checkinId };
       setPaymentLoadingStatus(API_STATUS.inProgress);
       if (state.id) {
-        await fetch(`http://localhost:3001/payments/${state.id}`, {
+        await fetch(`${API_URL}payments/${state.id}`, {
           method: "PUT",
           headers: {
             Accept: "application/json",
@@ -155,7 +152,7 @@ const Payments = (props) => {
         });
       } else {
         const id = uuidv4();
-        await fetch("http://localhost:3001/payments", {
+        await fetch(`${API_URL}payments`, {
           method: "POST",
           headers: {
             Accept: "application/json",

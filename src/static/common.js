@@ -1,3 +1,8 @@
+export const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://my-json-server.typicode.com/jpelaa/demo/"
+    : "http://localhost:3001/";
+
 export const API_STATUS = {
   init: "INIT",
   inProgress: "IN_PROGRESS",
