@@ -8,7 +8,7 @@ const PaymentContext = React.createContext();
 
 const initialState = {
   id: "",
-  guestId: "",
+  checkinId: "",
   paymentDate: moment(),
   mode: "1",
   others: "",

@@ -27,6 +27,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { PhoneIcon } from "@chakra-ui/icons";
 import { ERROR_TOAST_STYLE, SUCCESS_TOAST_STYLE } from "../static/styles";
+import { API_URL } from "../static/common";
 
 const AddGuest = (props) => {
   const { isModalOpen, onModalClose } = props;
@@ -37,7 +38,7 @@ const AddGuest = (props) => {
       const id = uuidv4();
       const body = { ...values, id };
 
-      await fetch("http://localhost:3001/guests", {
+      await fetch(`${API_URL}guests`, {
         method: "POST",
         headers: {
           Accept: "application/json",

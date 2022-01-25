@@ -49,7 +49,7 @@ import AutoComplete from "../components/AutoComplete";
 import { PaymentProvider } from "../contexts/payment-context";
 import { itemToString, searchGuest } from "../utils/common";
 import useDebounce from "../hooks/useDebouce";
-import { API_STATUS } from "../static/common";
+import { API_STATUS, API_URL } from "../static/common";
 
 const Home = (props) => {
   const { state, dispatch } = useHotelContext();
@@ -202,7 +202,7 @@ const Home = (props) => {
       const guestId = val.selectedItem.id;
       setSelectedItem(val.selectedItem);
       const res = await fetch(
-        `http://localhost:3001/checkIns?guestId=${guestId}`,
+        `${API_URL}checkIns?guestId=${guestId}&isCheckedOut=false`,
         {
           method: "GET",
           headers: {
@@ -251,7 +251,7 @@ const Home = (props) => {
       const body = { ...state };
       setCheckInAPILoadingStatus(API_STATUS.inProgress);
       if (hasAlreadySaved) {
-        await fetch(`http://localhost:3001/checkIns/${state.id}`, {
+        await fetch(`${API_URL}checkIns/${state.id}`, {
           method: "PUT",
           headers: {
             Accept: "application/json",
@@ -261,13 +261,20 @@ const Home = (props) => {
         });
       } else {
         const id = uuidv4();
-        await fetch("http://localhost:3001/checkIns", {
+        await fetch(`${API_URL}checkIns`, {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...body, id }),
+        });
+        dispatch({
+          type: UPDATE_HOTEL_VALUE,
+          payload: {
+            keyName: "id",
+            value: id,
+          },
         });
       }
 
@@ -302,30 +309,50 @@ const Home = (props) => {
     if (hasAlreadySaved) {
       const body = { ...state, isCheckedOut: true };
       setCheckoutAPILoadingStatus(true);
-      await fetch(`http://localhost:3001/checkIns/${state.id}`, {
-        method: "PUT",
+      const res = await fetch(`${API_URL}payments?checkinId=${state.id}`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
       });
-      dispatch({
-        type: UPDATE_HOTEL_VALUE,
-        payload: {
-          keyName: "isCheckedOut",
-          value: true,
-        },
-      });
-      const text = `You've successfully Checkout.`;
-      toast({
-        title: "Guest Checkout",
-        status: "success",
-        description: text,
-        containerStyle: SUCCESS_TOAST_STYLE,
-        duration: 2000,
-        isClosable: true,
-      });
+
+      const paymentListJSON = await res.json();
+      if (paymentListJSON.length > 0) {
+        await fetch(`${API_URL}checkIns/${state.id}`, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        dispatch({
+          type: UPDATE_HOTEL_VALUE,
+          payload: {
+            keyName: "isCheckedOut",
+            value: true,
+          },
+        });
+        const text = `You've successfully Checkout.`;
+        toast({
+          title: "Guest Checkout",
+          status: "success",
+          description: text,
+          containerStyle: SUCCESS_TOAST_STYLE,
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Wrong Checkout",
+          status: "error",
+          description: "Please add payments before checkout",
+          containerStyle: ERROR_TOAST_STYLE,
+          duration: 2000,
+          isClosable: true,
+        });
+      }
       setCheckoutAPILoadingStatus(false);
     } else {
       toast({
@@ -663,14 +690,14 @@ const Home = (props) => {
             <Button
               variant="secondary"
               onClick={() => {
-                if (state.guestId) {
+                if (state.id) {
                   onOpen();
                 } else {
                   toast({
-                    title: "No Guest Selected",
+                    title: "No Checkin",
                     status: "error",
                     description:
-                      "Please select guest then only you can proceed payments",
+                      "Please Checkin then only you can proceed payments",
                     containerStyle: ERROR_TOAST_STYLE,
                     duration: 2000,
                     isClosable: true,
@@ -697,7 +724,7 @@ const Home = (props) => {
       {isOpen && (
         <PaymentProvider>
           <Payments
-            guestId={state.guestId}
+            checkinId={state.id}
             isCheckedOut={state.isCheckedOut}
             isOpen={isOpen}
             onClose={onClose}

@@ -1,9 +1,11 @@
+import { API_URL } from "../static/common";
+
 export const itemToString = (item) =>
   item ? `${item.firstName} ${item.lastName}` : "";
 
 // API search guest
 export const searchGuest = (search) => {
-  return fetch(`http://localhost:3001/guests?q=${search}`, {
+  return fetch(`${API_URL}guests?q=${search}`, {
     method: "GET",
   })
     .then((r) => r.json())

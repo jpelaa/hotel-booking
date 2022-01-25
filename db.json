@@ -30,7 +30,7 @@
   "payments": [
     {
       "id": "f0dbf6e3-1ace-4c02-a53a-8976389c6005",
-      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
+      "checkinId": "fed16452-0df6-47e8-b7c7-c2cf3df5873c",
       "paymentDate": "2022-01-28T06:30:00.000Z",
       "mode": "2",
       "others": "",
@@ -38,61 +38,41 @@
       "amount": 23323
     },
     {
-      "id": "d8465a8a-b3d1-4e57-ae30-e5c174cf9a5d",
-      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
-      "paymentDate": "2022-01-31T06:30:00.000Z",
-      "mode": "3",
-      "others": "",
-      "desc": "aasdasd",
-      "amount": 12123
-    },
-    {
-      "id": "d890a2fc-0f2f-4ca7-a38e-8216622b251d",
-      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
-      "paymentDate": "2022-01-28T06:30:00.000Z",
-      "mode": "3",
-      "others": "",
-      "desc": "asdasd",
-      "amount": 212312
-    },
-    {
-      "id": "7ae93f59-6107-43c4-8b35-48deab87b051",
-      "guestId": "bc0bb146-663a-4e61-aab6-2620c6bebda9",
-      "paymentDate": "2022-01-27T06:30:00.000Z",
-      "mode": "3",
-      "others": "",
-      "desc": "deasdads",
-      "amount": 1,
-      "paymentId": "7ae93f59-6107-43c4-8b35-48deab87b051"
-    },
-    {
-      "id": "4b032696-7012-4a4b-9f0d-0ab480dd8fa1",
-      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
-      "paymentDate": "2022-01-24T06:30:00.000Z",
-      "mode": "2",
-      "others": "",
-      "desc": "desc",
-      "amount": 1,
-      "paymentId": "4b032696-7012-4a4b-9f0d-0ab480dd8fa1"
-    },
-    {
-      "id": "63e18b35-dd94-40a4-a12a-b3370710417d",
-      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
-      "paymentDate": "2022-01-25T06:30:00.000Z",
-      "mode": "2",
-      "others": "",
-      "desc": "desasd1",
-      "amount": 2
-    },
-    {
-      "id": "e1efd6bf-d340-4480-9e1f-1af5899516a9",
-      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
-      "paymentDate": "2022-01-27T06:30:00.000Z",
+      "id": "d0d1ed79-cf0b-4822-9b1d-534f191c821a",
+      "checkinId": "ee7f1ce9-8b29-4ec9-96d5-adcc4ec81f58",
+      "paymentDate": "2022-02-06T06:30:00.000Z",
       "mode": "1",
       "others": "",
-      "desc": "desc3",
-      "amount": 4,
-      "paymentId": "e1efd6bf-d340-4480-9e1f-1af5899516a9"
+      "desc": "initial deposit ",
+      "amount": 60,
+      "paymentId": "d0d1ed79-cf0b-4822-9b1d-534f191c821a"
+    },
+    {
+      "id": "541e1886-f86b-44a4-a43d-802191fcc974",
+      "checkinId": "ee7f1ce9-8b29-4ec9-96d5-adcc4ec81f58",
+      "paymentDate": "2022-02-07T06:30:00.000Z",
+      "mode": "2",
+      "others": "",
+      "desc": "second payment",
+      "amount": 36
+    },
+    {
+      "id": "4ab6bd0f-becc-48e3-8655-c9eb1faa9568",
+      "checkinId": "5941b45f-4e46-4b90-a856-1a8a2f50d544",
+      "paymentDate": "2022-01-14T06:30:00.000Z",
+      "mode": "1",
+      "others": "",
+      "desc": "advance",
+      "amount": 222
+    },
+    {
+      "id": "458c15ad-1267-4497-a054-81e5944c348e",
+      "checkinId": "5941b45f-4e46-4b90-a856-1a8a2f50d544",
+      "paymentDate": "2022-01-26T06:30:00.000Z",
+      "mode": "1",
+      "others": "",
+      "desc": "settlement",
+      "amount": 66
     }
   ],
   "roomTypes": [
@@ -144,6 +124,34 @@
       "ratePerRoom": 24,
       "noOfNights": 6,
       "estimatedCost": 144,
+      "isCheckedOut": true
+    },
+    {
+      "id": "ee7f1ce9-8b29-4ec9-96d5-adcc4ec81f58",
+      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
+      "arrivalDate": "2022-02-06T06:30:00.000Z",
+      "departureDate": "2022-02-10T06:30:00.000Z",
+      "noOfAdults": 1,
+      "noOfChildren": 0,
+      "noOfRooms": 1,
+      "roomType": "2",
+      "ratePerRoom": 24,
+      "noOfNights": 4,
+      "estimatedCost": 96,
+      "isCheckedOut": true
+    },
+    {
+      "id": "5941b45f-4e46-4b90-a856-1a8a2f50d544",
+      "guestId": "0bcf7d64-35db-41ab-85f2-4d9eaa41a4bb",
+      "arrivalDate": "2022-01-14T06:30:00.000Z",
+      "departureDate": "2022-01-26T14:04:41.601Z",
+      "noOfAdults": 1,
+      "noOfChildren": 0,
+      "noOfRooms": 1,
+      "roomType": "2",
+      "ratePerRoom": 24,
+      "noOfNights": 12,
+      "estimatedCost": 288,
       "isCheckedOut": true
     }
   ]
