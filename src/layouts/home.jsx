@@ -129,7 +129,7 @@ const Home = (props) => {
   useEffect(() => {
     async function fetchRoomTypes() {
       setRoomTypesAPILoadingStatus(true);
-      const res = await fetch("http://localhost:3001/roomTypes", {
+      const res = await fetch(`${API_URL}roomTypes`, {
         method: "GET",
         headers: {
           Accept: "application/json",
