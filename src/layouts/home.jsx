@@ -309,30 +309,50 @@ const Home = (props) => {
     if (hasAlreadySaved) {
       const body = { ...state, isCheckedOut: true };
       setCheckoutAPILoadingStatus(true);
-      await fetch(`${API_URL}checkIns/${state.id}`, {
-        method: "PUT",
+      const res = await fetch(`${API_URL}payments?checkinId=${state.id}`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
       });
-      dispatch({
-        type: UPDATE_HOTEL_VALUE,
-        payload: {
-          keyName: "isCheckedOut",
-          value: true,
-        },
-      });
-      const text = `You've successfully Checkout.`;
-      toast({
-        title: "Guest Checkout",
-        status: "success",
-        description: text,
-        containerStyle: SUCCESS_TOAST_STYLE,
-        duration: 2000,
-        isClosable: true,
-      });
+
+      const paymentListJSON = await res.json();
+      if (paymentListJSON.length > 0) {
+        await fetch(`${API_URL}checkIns/${state.id}`, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        dispatch({
+          type: UPDATE_HOTEL_VALUE,
+          payload: {
+            keyName: "isCheckedOut",
+            value: true,
+          },
+        });
+        const text = `You've successfully Checkout.`;
+        toast({
+          title: "Guest Checkout",
+          status: "success",
+          description: text,
+          containerStyle: SUCCESS_TOAST_STYLE,
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Wrong Checkout",
+          status: "error",
+          description: "Please add payments before checkout",
+          containerStyle: ERROR_TOAST_STYLE,
+          duration: 2000,
+          isClosable: true,
+        });
+      }
       setCheckoutAPILoadingStatus(false);
     } else {
       toast({

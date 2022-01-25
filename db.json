@@ -55,6 +55,24 @@
       "others": "",
       "desc": "second payment",
       "amount": 36
+    },
+    {
+      "id": "4ab6bd0f-becc-48e3-8655-c9eb1faa9568",
+      "checkinId": "5941b45f-4e46-4b90-a856-1a8a2f50d544",
+      "paymentDate": "2022-01-14T06:30:00.000Z",
+      "mode": "1",
+      "others": "",
+      "desc": "advance",
+      "amount": 222
+    },
+    {
+      "id": "458c15ad-1267-4497-a054-81e5944c348e",
+      "checkinId": "5941b45f-4e46-4b90-a856-1a8a2f50d544",
+      "paymentDate": "2022-01-26T06:30:00.000Z",
+      "mode": "1",
+      "others": "",
+      "desc": "settlement",
+      "amount": 66
     }
   ],
   "roomTypes": [
@@ -134,7 +152,7 @@
       "ratePerRoom": 24,
       "noOfNights": 12,
       "estimatedCost": 288,
-      "isCheckedOut": false
+      "isCheckedOut": true
     }
   ]
 }
