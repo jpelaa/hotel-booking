@@ -15,7 +15,7 @@ import { detect } from 'detect-browser';
     console.log(browser.version);
     console.log(browser.os);
   }
-  console.log(browser, ' browser ');
+  console.log(browser, ' browser details ');
   alert(JSON.stringify(browser));
 
 ReactDOM.render(
